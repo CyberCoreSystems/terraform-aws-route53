@@ -1,0 +1,91 @@
+# ==============================================================================
+#  aws-route53 — terraform.tfvars
+# ==============================================================================
+#  Copy this file to `terraform.tfvars`, set the values, then run:
+#      tofu init && tofu apply        (or:  terraform init && terraform apply)
+#
+# AUTHENTICATION — AWS:
+#   The AWS provider authenticates exactly like the AWS SDK/CLI, resolving
+#   credentials through a fixed precedence chain and (separately) requiring a
+#   region.
+#   Quick start: aws sso login --profile <name> (or `aws configure sso`
+#   first-time setup; `aws configure` for static keys). The SDK/Terraform read
+#   the SSO/credential cache automatically.
+#   Environment variables Terraform reads:
+#     AWS_ACCESS_KEY_ID  (secret) — Access key ID for static/temporary credentials.
+#     AWS_SECRET_ACCESS_KEY  (secret) — Secret access key paired with the access key ID.
+#     AWS_SESSION_TOKEN  (secret) — Session token for temporary (STS) credentials.
+#     AWS_REGION — Target AWS region (required); preferred over AWS_DEFAULT_REGION.
+#     AWS_DEFAULT_REGION — Legacy region variable; used if AWS_REGION is unset.
+#   Full guide (auth + remote state):  docs/CONNECTING-PROVIDERS.md#aws
+#
+#  Secrets below read "REPLACE_ME" — never commit real secrets. Prefer
+#  TF_VAR_<name> environment variables or a secrets manager.
+#  Status: static-validated, live-test pending (see README.md).
+# ==============================================================================
+
+
+# ------------------------------------------------------------------------------
+#  REQUIRED — you must set these
+# ------------------------------------------------------------------------------
+
+# zone_name  —  string  (REQUIRED)
+#   DNS name for the hosted zone, e.g. "example.com". A trailing dot is optional.
+#   By default a PUBLIC hosted zone is created; set vpc_ids to make it private.
+#   Constraint: must be a valid DNS name with at least two labels (e.g.
+#   example.com); a single trailing dot is allowed.
+zone_name = "example.com"
+
+# ------------------------------------------------------------------------------
+#  OPTIONAL — defaults shown; uncomment a line to override
+# ------------------------------------------------------------------------------
+
+# comment  —  string  (optional, default: "Managed by IaC Bazaar")
+#   Comment stored on the hosted zone.
+# comment = "Managed by IaC Bazaar"
+
+# force_destroy  —  bool  (optional, default: false)
+#   Destroy all records in the zone (including any created outside Terraform)
+#   when the zone is destroyed. Secure default is false so you never silently
+#   delete unmanaged records.
+# force_destroy = false
+
+# vpc_ids  —  list(string)  (optional, default: [])
+#   VPC IDs to associate with the zone. A non-empty list makes the zone PRIVATE
+#   (resolvable only inside those VPCs). Empty = public hosted zone.
+# vpc_ids = []
+
+# vpc_region  —  string  (optional, default: null)
+#   Region of the associated VPCs (private zones only). Null uses the provider's
+#   region.
+# vpc_region = null
+
+# delegation_set_id  —  string  (optional, default: null)
+#   Reusable delegation set ID to pin the zone's name servers (public zones
+#   only; conflicts with a private zone).
+# delegation_set_id = null
+
+# records  —  map(object)  (optional, default: {})
+#   DNS records keyed by a stable logical id. Set EITHER records (rdata) OR
+#   alias per entry. TXT values must be escaped-quoted, e.g. ["\"v=spf1 -all\""].
+records = {
+  www = {
+    name    = "www"
+    type    = "A"
+    ttl     = 300
+    records = ["203.0.113.10"]
+  }
+  spf = {
+    name    = "@"
+    type    = "TXT"
+    ttl     = 300
+    records = ["\"v=spf1 -all\""]
+  }
+}
+
+# tags  —  map(string)  (optional, default: {})
+#   Tags applied to the hosted zone.
+tags = {
+  Environment = "example"
+  ManagedBy   = "iac-bazaar"
+}
