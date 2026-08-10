@@ -8,7 +8,7 @@ This module was **applied to a real AWS account, verified, and destroyed** on 20
 
 ```hcl
 module "route53" {
-  source  = "CyberCoreSystems/route53/aws"
+  source  = "registry.terraform.io/CyberCoreSystems/route53/aws"
   version = "~> 1.0"
 
   # See variables.tf for the full input contract.
