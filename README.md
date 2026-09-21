@@ -1,8 +1,10 @@
 # Route 53 Hosted Zone & Records
 
+[![IaC Bazaar: live-tested](https://www.iac-bazaar.com/api/artifacts/aws-route53/badge)](https://www.iac-bazaar.com/catalog/aws-route53?utm_source=syndication&utm_medium=readme&utm_campaign=artifact)
+
 A Route 53 hosted zone (public or private via vpc_ids) plus a map-driven set of records, with name normalisation and the alias-vs-rdata distinction resolved and inputs validated.
 
-This module was **applied to a real AWS account, verified, and destroyed** on 2026-06-30 — not just `terraform validate`d.
+This module was **applied to a real AWS account, verified, and destroyed** on 2026-06-30 - not just `terraform validate`d.
 
 ## Usage
 
@@ -17,7 +19,7 @@ module "route53" {
 
 ## Why this module
 
-Every module we publish goes through the same gate before release:
+Every module we publish goes through the same checks before release:
 
 | check | what it means |
 |---|---|
@@ -36,7 +38,8 @@ aws >= 6.0, < 7.0
 
 ## More modules
 
-This is one of **183 verified Terraform modules across 19 cloud platforms** —
+This is one of **673 Terraform modules across 19 cloud platforms** on
+IaC Bazaar, 113 of them live-tested:
 AWS, Azure, GCP, Oracle OCI, Cloudflare, Akamai, DigitalOcean, Linode, Hetzner,
 Vultr, Scaleway, Alibaba, IBM, UpCloud, Civo, Exoscale, OVH, Tencent and Huawei.
 
@@ -44,7 +47,7 @@ Browse the full catalogue at **[www.iac-bazaar.com](https://www.iac-bazaar.com)*
 production landing zones for AWS, Azure and GCP that have each been live-tested
 as a single composed apply.
 
-- Module page: [https://www.iac-bazaar.com/catalog/aws-route53](https://www.iac-bazaar.com/catalog/aws-route53)
+- Terraform module 1.0.0, live-tested on IaC Bazaar: [Route 53 Hosted Zone & Records](https://www.iac-bazaar.com/catalog/aws-route53?utm_source=syndication&utm_medium=readme&utm_campaign=artifact)
 - How verification works: [https://www.iac-bazaar.com/verified](https://www.iac-bazaar.com/verified)
 
 ## Licence
